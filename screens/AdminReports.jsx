@@ -158,7 +158,7 @@ export default function AdminReports() {
   );
 
   return (
-    <LinearGradient colors={['#f0fdfa', '#e0f2fe']} style={styles.gradient}>
+    <LinearGradient colors={['#2563eb', '#06b6d4']} style={styles.gradient}>
       <View style={styles.container}>
         <Text style={styles.title}>Admin Reports</Text>
 

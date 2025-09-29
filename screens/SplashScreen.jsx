@@ -28,7 +28,7 @@ export default function SplashScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FF4500', // ✅ red-orange background
+    backgroundColor: '#6bb5ffff', // ✅ red-orange background
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   tagline: {
     fontSize: 16,
-    color: '#fff',
+    color: '#ffffffff',
     textAlign: 'center',
     marginTop: 0,
   },

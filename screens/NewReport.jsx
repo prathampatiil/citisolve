@@ -187,7 +187,7 @@ export default function NewReport({ navigation, route }) {
 const styles = StyleSheet.create({
   gradient: { flex: 1 },
   container: { padding: 16 },
-  title: { fontSize: 24, fontWeight: '800', textAlign: 'center', marginBottom: 16, color: '#fff' },
+  title: { fontSize: 24, fontWeight: '800', textAlign: 'center', marginBottom: 16, color: '#ffffffff' },
   label: { fontWeight: '700', marginTop: 10, marginBottom: 6, color: '#064e3b' },
   input: {
     backgroundColor: '#fff',

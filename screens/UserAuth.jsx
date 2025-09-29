@@ -48,22 +48,27 @@ export default function UserAuth({ navigation }) {
     >
       <Text style={styles.title}>User Login</Text>
 
+      {/* Username with black border */}
       <TextInput
-        style={styles.input}
+        style={[styles.input, styles.blackBorderInput]}
         placeholder="Username"
         value={username}
         onChangeText={setUsername}
         autoCapitalize="none"
         placeholderTextColor={theme.colors.textLight}
       />
+
+      {/* Password with black border */}
       <TextInput
-        style={styles.input}
+        style={[styles.input, styles.blackBorderInput]}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
         placeholderTextColor={theme.colors.textLight}
       />
+
+      {/* Mobile input stays same */}
       <TextInput
         style={styles.input}
         placeholder="Mobile Number"
@@ -112,6 +117,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+  },
+  // ✅ New style for black border
+  blackBorderInput: {
+    borderWidth: 1,
+    borderColor: '#000',
   },
   button: {
     backgroundColor: theme.colors.primary,

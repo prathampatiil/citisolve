@@ -23,7 +23,7 @@ export default function AllReports() {
   };
 
   return (
-    <LinearGradient colors={['#f0fdfa', '#ccfbf1']} style={styles.gradient}>
+    <LinearGradient colors={['#2563eb', '#06b6d4']} style={styles.gradient}>
       <View style={styles.container}>
         <Text style={styles.title}>📋 All Reports</Text>
         {reports.length === 0 ? (
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
     marginBottom: 16,
-    color: '#134e4a',
+    color: '#ffffffff',
   },
   emptyText: { textAlign: 'center', marginTop: 40, color: '#64748b' },
   card: {

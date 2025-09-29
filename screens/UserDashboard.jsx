@@ -1,4 +1,3 @@
-// screens/UserDashboard.jsx
 import React, { useState } from 'react';
 import {
   View,
@@ -35,42 +34,40 @@ export default function UserDashboard({ navigation }) {
   };
 
   return (
-    <LinearGradient
-      colors={['#8b5cf6', '#ec4899']} // purple → pink gradient
-      style={styles.gradient}
-    >
-      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
+    <LinearGradient colors={['#8b5cf6', '#ec4899']} style={styles.gradient}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 120, paddingHorizontal: 16 }}>
         <Text style={styles.title}>🚀 User Dashboard</Text>
 
-        {/* Transparent buttons with white text + border */}
-        <CustomButton
-          title="📝 New Report"
-          onPress={() => navigation.navigate('New Report')}
-          color="transparent"
-          textColor="#fff"
-          borderColor="#fff"
-        />
-        <CustomButton
-          title="📂 My Reports"
-          onPress={() => navigation.navigate('My Reports')}
-          color="transparent"
-          textColor="#fff"
-          borderColor="#fff"
-        />
-        <CustomButton
-          title="🌍 All Complaints"
-          onPress={() => navigation.navigate('All Reports')}
-          color="transparent"
-          textColor="#fff"
-          borderColor="#fff"
-        />
-        <CustomButton
-          title="♻️ Eco Drop Point"
-          onPress={() => navigation.navigate('Eco Drop Point')}
-          color="transparent"
-          textColor="#fff"
-          borderColor="#fff"
-        />
+        {/* Dashboard Buttons with subtle border */}
+        <View style={styles.dashboardButtons}>
+          <TouchableOpacity
+            style={styles.mainButton}
+            onPress={() => navigation.navigate('New Report')}
+          >
+            <Text style={styles.buttonText}>📝 New Report</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.mainButton}
+            onPress={() => navigation.navigate('My Reports')}
+          >
+            <Text style={styles.buttonText}>📂 My Reports</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.mainButton}
+            onPress={() => navigation.navigate('All Reports')}
+          >
+            <Text style={styles.buttonText}>🌍 All Complaints</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.mainButton}
+            onPress={() => navigation.navigate('Eco Drop Point')}
+          >
+            <Text style={styles.buttonText}>♻️ Eco Drop Point</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
 
       {/* Floating Action Button */}
@@ -89,7 +86,13 @@ export default function UserDashboard({ navigation }) {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  style={[styles.categoryRow, { backgroundColor: item.color + '22' }]}
+                  style={[
+                    styles.categoryRow,
+                    {
+                      backgroundColor: item.color + '12',
+                      borderColor: item.color,
+                    },
+                  ]}
                   onPress={() => handleCategoryPress(item)}
                 >
                   <Ionicons
@@ -119,6 +122,28 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fff',
   },
+  dashboardButtons: {
+    marginTop: 10,
+  },
+  mainButton: {
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    paddingVertical: 12, // slightly smaller
+    marginVertical: 6,   // slightly smaller
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ffffff55', // subtle, semi-transparent border to match background
+    shadowColor: '#00000011', // very soft shadow
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 1,
+  },
+  buttonText: {
+    color: '#111',
+    fontSize: 15, // slightly smaller
+    fontWeight: '600',
+  },
   fab: {
     position: 'absolute',
     bottom: 28,
@@ -129,11 +154,11 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 6,
+    shadowColor: '#00000033',
+    shadowOpacity: 0.15,
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 1,
   },
   modalOverlay: {
     flex: 1,
@@ -146,11 +171,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
     maxHeight: '80%',
-    shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: -3 },
-    elevation: 6,
+    shadowColor: '#00000022',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: -2 },
+    elevation: 2,
   },
   modalTitle: {
     fontSize: 20,
@@ -165,11 +190,13 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     padding: 14,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 3,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    shadowColor: '#00000022',
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 1,
   },
   categoryText: {
     fontSize: 13,

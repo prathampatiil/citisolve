@@ -45,7 +45,7 @@ export default function RoleSelection({ navigation }) {
           onPress={() => navigation.navigate('ContractorLogin')}
           activeOpacity={0.85}
         >
-          <Text style={styles.buttonText}>Vendor</Text>
+          <Text style={styles.buttonText}>Contaractor</Text>
         </TouchableOpacity>
       </View>
     </LinearGradient>
@@ -67,11 +67,11 @@ const styles = StyleSheet.create({
     borderRadius: 80,
     backgroundColor: 'rgba(255,255,255,0.15)', // frosted glass effect
     marginBottom: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowColor: '#cb76f9ff',
+    shadowOpacity: 0.1,
+    shadowRadius: 0,
     shadowOffset: { width: 0, height: 4 },
-    elevation: 6,
+    elevation: 0,
   },
   logo: { width: 120, height: 120, resizeMode: 'contain' },
 
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginVertical: 10,
     alignItems: 'center',
-    backgroundColor: '#7c3aed', // deep purple to match gradient
+    backgroundColor: '#7c3aedff', // deep purple to match gradient
     shadowColor: '#000',
     shadowOpacity: 0.25,
     shadowRadius: 6,

@@ -1,50 +1,73 @@
 // screens/AdminLogin.jsx
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import AuthForm from '../components/AuthForm';
 
 export default function AdminLogin({ navigation }) {
   return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        <AuthForm
-          type="login"
-          role="Admin"
-          onSubmit={() => navigation.replace('AdminDrawer')}
-        />
+    <LinearGradient
+      colors={['#004d40', '#00796b']}
+      style={styles.gradientContainer}
+    >
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 20}
+      >
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.cardWrapper}>
+            <View style={styles.card}>
+              <AuthForm
+                type="login"
+                role="Admin"
+                onSubmit={() => navigation.replace('AdminDrawer')}
+                inputStyle={styles.blackBorderInput}
+              />
 
-        {/* 👇 Register link */}
-        <TouchableOpacity onPress={() => navigation.navigate('AdminRegister')}>
-          <Text style={styles.registerText}>No account? Register</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+              <TouchableOpacity onPress={() => navigation.navigate('AdminRegister')}>
+                <Text style={styles.registerText}>No account? Register</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',   
-    alignItems: 'center',       
-    backgroundColor: '#0D1B2A', // ✅ Dark navy background
-  },
+  gradientContainer: { flex: 1 },
+  scrollContainer: { flexGrow: 1, justifyContent: 'center', alignItems: 'center' },
+  cardWrapper: { width: '100%', paddingHorizontal: 16 }, // make wrapper stretch fully
   card: {
-    width: '85%',
-    padding: 20,
+    width: '100%',
     backgroundColor: '#ffffff',
-    borderRadius: 12,
+    borderRadius: 20,
+    padding: 22,
     opacity: 0.95,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 6,
-    elevation: 6, // Android shadow
+    elevation: 6,
   },
   registerText: {
     textAlign: 'center',
     marginTop: 12,
-    color: '#1E88E5', // blue accent for links
+    color: '#1E88E5',
     fontWeight: '600',
   },
+  blackBorderInput: { borderWidth: 1.5, borderColor: '#ffffffff', borderRadius: 8, marginBottom: 12 },
 });

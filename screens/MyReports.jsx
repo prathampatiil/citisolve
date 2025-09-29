@@ -46,7 +46,7 @@ export default function MyReports() {
   );
 
   return (
-    <LinearGradient colors={['#f0fdfa', '#ccfbf1']} style={styles.gradient}>
+    <LinearGradient colors={['#14b8a6', '#99f6e4']} style={styles.gradient}>
       <View style={styles.container}>
         <Text style={styles.title}>📋 My Reports</Text>
 
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     textAlign: 'center',
     marginBottom: 16,
-    color: '#134e4a',
+    color: '#ffffffff',
   },
   sectionTitle: {
     fontSize: 18,

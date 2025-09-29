@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import UserDashboard from '../screens/UserDashboard';
 import NewReport from '../screens/NewReport';
 import MyReports from '../screens/MyReports';
 import AllReports from '../screens/AllReports';
-import EcoDropPoint from '../screens/EcoDropPoint'; // ✅ Added
-
+import EcoDropPoint from '../screens/EcoDropPoint';
 import defaultProfile from '../assets/default_profile.png';
 
 const Drawer = createDrawerNavigator();
@@ -18,11 +18,15 @@ export default function UserDrawer({ navigation }) {
 
   const CustomDrawerContent = (props) => (
     <DrawerContentScrollView {...props}>
-      <View style={styles.profileSection}>
+      {/* Gradient profile section */}
+      <LinearGradient
+        colors={['#8b5cf6', '#ec4899']} // ✅ UserDashboard gradient
+        style={styles.profileSection}
+      >
         <Image source={defaultProfile} style={styles.avatar} />
         <Text style={styles.username}>{currentUser?.name || currentUser?.email}</Text>
         <Text style={styles.email}>{currentUser?.email}</Text>
-      </View>
+      </LinearGradient>
 
       <View style={{ flex: 1, paddingTop: 10 }}>
         <DrawerItemList {...props} />
@@ -45,7 +49,7 @@ export default function UserDrawer({ navigation }) {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         headerShown: true,
-        drawerActiveBackgroundColor: '#4e9bde',
+        drawerActiveBackgroundColor: '#a855f7', // ✅ gradient-like active color approximation
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#333',
       }}
@@ -71,7 +75,7 @@ export default function UserDrawer({ navigation }) {
         options={{ drawerIcon: ({ color }) => <Ionicons name="list-outline" size={22} color={color} /> }}
       />
       <Drawer.Screen
-        name="Eco Drop Point" // ✅ New screen
+        name="Eco Drop Point"
         component={EcoDropPoint}
         options={{ drawerIcon: ({ color }) => <Ionicons name="leaf-outline" size={22} color={color} /> }}
       />
@@ -80,11 +84,24 @@ export default function UserDrawer({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  profileSection: { paddingVertical: 30, paddingHorizontal: 15, backgroundColor: '#5aa0e0', alignItems: 'center' },
+  profileSection: {
+    paddingVertical: 30,
+    paddingHorizontal: 15,
+    alignItems: 'center',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
   avatar: { width: 70, height: 70, borderRadius: 35, marginBottom: 10 },
   username: { fontSize: 16, fontWeight: 'bold', color: '#fff' },
   email: { fontSize: 12, color: '#eee', marginBottom: 5 },
   logoutContainer: { padding: 15, borderTopWidth: 1, borderTopColor: '#ddd' },
-  logoutButton: { flexDirection: 'row', backgroundColor: '#e74c3c', paddingVertical: 10, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  logoutButton: {
+    flexDirection: 'row',
+    backgroundColor: '#e74c3c',
+    paddingVertical: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   logoutText: { color: '#fff', fontSize: 15, marginLeft: 8, fontWeight: '600' },
 });

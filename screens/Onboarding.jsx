@@ -1,4 +1,3 @@
-// screens/Onboarding.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
@@ -35,30 +34,30 @@ export default function Onboarding({ navigation }) {
       style={styles.gradient}
     >
       <SafeAreaView style={styles.container}>
-        {/* ✅ Styled Logo (works even if not transparent) */}
-        <View style={styles.logoWrapper}>
-          <Image
-            source={require('../assets/citysolvelogo.jpg')} // non-transparent logo
-            style={styles.logo}
-          />
+        {/* Centered Logo and Slide Content */}
+        <View style={styles.centerContent}>
+          <View style={styles.logoWrapper}>
+            <Image
+              source={require('../assets/citisolve.png')}
+              style={styles.logo}
+            />
+          </View>
+
+          <Animated.View
+            style={{
+              opacity: fadeAnim,
+              marginTop: 20,
+              alignItems: 'center',
+            }}
+          >
+            <Text style={styles.title}>{slides[index].title}</Text>
+            <Text style={styles.desc}>{slides[index].desc}</Text>
+          </Animated.View>
         </View>
 
-        {/* Animated Slide Content */}
-        <Animated.View
-          style={{
-            opacity: fadeAnim,
-            flex: 1,
-            justifyContent: 'center',
-            width: '100%',
-          }}
-        >
-          <Text style={styles.title}>{slides[index].title}</Text>
-          <Text style={styles.desc}>{slides[index].desc}</Text>
-        </Animated.View>
-
-        {/* Gradient Button */}
+        {/* Gradient Button at Bottom */}
         <TouchableOpacity
-          activeOpacity={0.85}
+          activeOpacity={0.75}
           onPress={() => {
             if (index < slides.length - 1) setIndex(index + 1);
             else navigation.replace('RoleSelection');
@@ -82,23 +81,27 @@ const styles = StyleSheet.create({
   gradient: { flex: 1 },
 
   container: {
-    flexGrow: 1,
+    flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 40,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
 
-  // ✅ Styled wrapper for non-transparent logos
+  centerContent: {
+    flex: 1,
+    justifyContent: 'center', // ✅ centers logo + slide content vertically
+    alignItems: 'center',
+  },
+
   logoWrapper: {
     padding: 12,
     borderRadius: 80,
-    backgroundColor: 'rgba(255,255,255,0.15)', // soft overlay behind logo
+    backgroundColor: 'rgba(255,255,255,0.15)',
     shadowColor: '#000',
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.1,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 4 },
-    elevation: 6,
+    elevation: 0,
   },
   logo: { width: 120, height: 120, borderRadius: 20, resizeMode: 'contain' },
 

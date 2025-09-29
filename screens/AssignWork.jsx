@@ -29,7 +29,7 @@ export default function AssignWork() {
   };
 
   return (
-    <LinearGradient colors={['#f0fdfa', '#ccfbf1']} style={styles.gradient}>
+    <LinearGradient colors={['#2563eb', '#06b6d4']} style={styles.gradient}>
       <View style={styles.container}>
         <Text style={styles.title}>🔧 Assign Work</Text>
 

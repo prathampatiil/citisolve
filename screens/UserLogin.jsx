@@ -1,40 +1,63 @@
-// screens/UserLogin.jsx
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AuthForm from '../components/AuthForm';
 
 export default function UserLogin({ navigation }) {
   return (
     <LinearGradient
-      colors={['#004d40', '#00796b']} // ✅ dark → medium teal gradient
-      style={styles.container}
+      colors={['#004d40', '#00796b']} // dark → medium teal gradient
+      style={styles.gradientContainer}
     >
-      <View style={styles.card}>
-        <AuthForm
-          type="login"
-          role="User"
-          onSubmit={() => navigation.replace('UserDrawer')}
-        />
-
-        {/* Register link */}
-        <TouchableOpacity
-          onPress={() => navigation.navigate('UserRegister')}
-          activeOpacity={0.8}
-          style={styles.registerWrapper}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 20} // adjust as needed
+      >
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          keyboardShouldPersistTaps="handled"
         >
-          <Text style={styles.registerText}>
-            No account? <Text style={styles.registerLink}>Register</Text>
-          </Text>
-        </TouchableOpacity>
-      </View>
+          <View style={styles.card}>
+            <AuthForm
+              type="login"
+              role="User"
+              // 👇 pass custom style for text inputs
+              inputStyle={styles.inputStyle}
+              onSubmit={() => navigation.replace('UserDrawer')}
+            />
+
+            {/* Register link */}
+            <TouchableOpacity
+              onPress={() => navigation.navigate('UserRegister')}
+              activeOpacity={0.8}
+              style={styles.registerWrapper}
+            >
+              <Text style={styles.registerText}>
+                No account? <Text style={styles.registerLink}>Register</Text>
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  gradientContainer: {
     flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -42,13 +65,13 @@ const styles = StyleSheet.create({
     width: '85%',
     padding: 22,
     backgroundColor: '#ffffff',
-    borderRadius: 14,
+    borderRadius: 20,
     opacity: 0.95,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.75,
     shadowRadius: 8,
-    elevation: 8, // Android shadow
+    elevation: 10, // Android shadow
   },
   registerWrapper: {
     marginTop: 16,
@@ -62,5 +85,14 @@ const styles = StyleSheet.create({
   registerLink: {
     color: '#26a69a', // brighter teal accent
     fontWeight: '700',
+  },
+  // ✅ Visible black border for inputs
+  inputStyle: {
+    borderWidth: 2,
+    borderColor: '#ffffffff', // black
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    marginBottom: 12,
   },
 });
