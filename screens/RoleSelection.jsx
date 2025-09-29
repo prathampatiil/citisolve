@@ -1,81 +1,112 @@
 // screens/RoleSelection.jsx
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import theme from '../theme';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function RoleSelection({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Image source={require('../assets/citisolve.png')} style={styles.logo} />
-      <Text style={styles.title}>Welcome to CitiSolve</Text>
-      <Text style={styles.subtitle}>Select your role</Text>
+    <LinearGradient
+      colors={['#8b5cf6', '#ec4899']} // purple → pink gradient background
+      style={styles.gradient}
+    >
+      <View style={styles.container}>
+        {/* ✅ Styled Logo */}
+        <View style={styles.logoWrapper}>
+          <Image
+            source={require('../assets/citisolve.png')}
+            style={styles.logo}
+          />
+        </View>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('UserLogin')}
-      >
-        <Text style={styles.buttonText}>User</Text>
-      </TouchableOpacity>
+        <Text style={styles.title}>Welcome to CitiSolve</Text>
+        <Text style={styles.subtitle}>Select your role</Text>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('AdminLogin')}
-      >
-        <Text style={styles.buttonText}>Admin</Text>
-      </TouchableOpacity>
+        {/* User Button */}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('UserLogin')}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.buttonText}>User</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('ContractorLogin')}
-      >
-        <Text style={styles.buttonText}>Vendor</Text>
-      </TouchableOpacity>
-    </View>
+        {/* Admin Button */}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('AdminLogin')}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.buttonText}>Admin</Text>
+        </TouchableOpacity>
+
+        {/* Vendor Button */}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('ContractorLogin')}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.buttonText}>Vendor</Text>
+        </TouchableOpacity>
+      </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  gradient: { flex: 1 },
   container: {
     flex: 1,
-    padding: theme.spacing.lg,
     justifyContent: 'center',
-    backgroundColor: theme.colors.background, // dark teal background
+    alignItems: 'center',
+    padding: 20,
   },
-  logo: {
-    width: 120,
-    height: 120,
-    alignSelf: 'center',
+
+  // ✅ Logo with shadow and background
+  logoWrapper: {
+    padding: 12,
+    borderRadius: 80,
+    backgroundColor: 'rgba(255,255,255,0.15)', // frosted glass effect
     marginBottom: 20,
-    resizeMode: 'contain',
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 6,
   },
+  logo: { width: 120, height: 120, resizeMode: 'contain' },
+
   title: {
-    fontSize: 26,
-    fontWeight: '700',
+    fontSize: 28,
+    fontWeight: '800',
     textAlign: 'center',
-    color: theme.colors.textDark, // light teal
-    marginBottom: 5,
+    color: '#fff',
+    marginBottom: 6,
   },
   subtitle: {
+    fontSize: 16,
     textAlign: 'center',
-    color: theme.colors.textLight, // softer teal
-    marginBottom: 20,
+    color: '#f1f5f9',
+    marginBottom: 24,
   },
+
+  // ✅ All buttons styled with matching purple
   button: {
-    backgroundColor: theme.colors.primary,
-    padding: theme.spacing.md,
-    borderRadius: theme.radius.md,
+    width: 220,
+    paddingVertical: 14,
+    borderRadius: 30,
+    marginVertical: 10,
     alignItems: 'center',
-    marginVertical: 8,
-    // ✅ shadows for depth
+    backgroundColor: '#7c3aed', // deep purple to match gradient
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 6, // for Android
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 5,
   },
   buttonText: {
-    color: theme.colors.white,
-    fontWeight: '600',
+    color: '#fff',
+    fontWeight: '700',
     fontSize: 18,
+    textAlign: 'center',
   },
 });

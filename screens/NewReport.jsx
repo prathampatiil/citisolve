@@ -1,8 +1,18 @@
 // screens/NewReport.jsx
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, ScrollView, Alert, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
+import { LinearGradient } from 'expo-linear-gradient'; // ✅ background gradient
 import { useReports } from '../context/ReportContext';
 import CustomButton from '../components/CustomButton';
 
@@ -29,8 +39,6 @@ const WASTE_TYPES = [
 
 export default function NewReport({ navigation, route }) {
   const { addReport } = useReports();
-
-  // Pre-fill title if passed from FAB
   const prefillTitle = route?.params?.title || '';
 
   const [title, setTitle] = useState(prefillTitle);
@@ -40,7 +48,6 @@ export default function NewReport({ navigation, route }) {
   const [imageUri, setImageUri] = useState(null);
   const [coords, setCoords] = useState(null);
 
-  // Ask for location permission on mount
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -83,7 +90,6 @@ export default function NewReport({ navigation, route }) {
       return;
     }
 
-    // build title automatically if empty
     const finalTitle = title || selectedComplaint;
 
     addReport({
@@ -93,91 +99,123 @@ export default function NewReport({ navigation, route }) {
       coordinates: coords,
       category: selectedComplaint,
       segregationType: selectedComplaint === 'Garbage Dump' ? segregationType : '',
-      createdBy: 'John Doe', // later from AuthContext
+      createdBy: 'John Doe',
     });
 
     Alert.alert('Success', 'Report submitted successfully!');
-    navigation.replace('UserDrawer'); // redirect to your dashboard route
+    navigation.replace('UserDrawer');
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>New Report</Text>
+    <LinearGradient colors={['#14b8a6', '#99f6e4']} style={styles.gradient}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>📝 New Report</Text>
 
-      <Text style={styles.label}>Complaint Type</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 10 }}>
-        {COMPLAINT_TYPES.map((c) => (
-          <TouchableOpacity
-            key={c}
-            style={[styles.badge, selectedComplaint === c && styles.badgeActive]}
-            onPress={() => {
-              setSelectedComplaint(c);
-              setTitle(c); // auto fill title
-            }}
-          >
-            <Text style={[styles.badgeText, selectedComplaint === c && { color: '#fff' }]}>{c}</Text>
-          </TouchableOpacity>
-        ))}
+        {/* Complaint Types */}
+        <Text style={styles.label}>Complaint Type</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 12 }}>
+          {COMPLAINT_TYPES.map((c) => (
+            <TouchableOpacity
+              key={c}
+              style={[styles.badge, selectedComplaint === c && styles.badgeActive]}
+              onPress={() => {
+                setSelectedComplaint(c);
+                setTitle(c);
+              }}
+            >
+              <Text style={[styles.badgeText, selectedComplaint === c && { color: '#fff' }]}>{c}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        {/* Title */}
+        <Text style={styles.label}>Title</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter title"
+          value={title}
+          onChangeText={setTitle}
+        />
+
+        {/* Description */}
+        <Text style={styles.label}>Description</Text>
+        <TextInput
+          style={[styles.input, { height: 80 }]}
+          placeholder="Describe the issue"
+          value={description}
+          onChangeText={setDescription}
+          multiline
+        />
+
+        {/* Waste Type */}
+        {selectedComplaint === 'Garbage Dump' && (
+          <>
+            <Text style={styles.label}>Waste Segregation Type</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 12 }}>
+              {WASTE_TYPES.map((w) => (
+                <TouchableOpacity
+                  key={w.value}
+                  style={[styles.badge, segregationType === w.value && styles.badgeActive]}
+                  onPress={() => setSegregationType(w.value)}
+                >
+                  <Text style={[styles.badgeText, segregationType === w.value && { color: '#fff' }]}>{w.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </>
+        )}
+
+        {/* Photo */}
+        <Text style={styles.label}>Photo</Text>
+        <View style={styles.row}>
+          <CustomButton title="Gallery" color="#0ea5e9" onPress={pickImage} />
+          <CustomButton title="Camera" color="#10b981" onPress={takePhoto} />
+        </View>
+        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+
+        {/* Location */}
+        <Text style={styles.label}>Location</Text>
+        <Text style={styles.coords}>{coords || 'Fetching coordinates...'}</Text>
+
+        {/* Submit */}
+        <CustomButton title="Submit Report" color="#6366f1" onPress={handleSubmit} />
       </ScrollView>
-
-      <Text style={styles.label}>Title</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter title"
-        value={title}
-        onChangeText={setTitle}
-      />
-
-      <Text style={styles.label}>Description</Text>
-      <TextInput
-        style={[styles.input, { height: 80 }]}
-        placeholder="Describe the issue"
-        value={description}
-        onChangeText={setDescription}
-        multiline
-      />
-
-      {selectedComplaint === 'Garbage Dump' && (
-        <>
-          <Text style={styles.label}>Waste Segregation Type</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 10 }}>
-            {WASTE_TYPES.map((w) => (
-              <TouchableOpacity
-                key={w.value}
-                style={[styles.badge, segregationType === w.value && styles.badgeActive]}
-                onPress={() => setSegregationType(w.value)}
-              >
-                <Text style={[styles.badgeText, segregationType === w.value && { color: '#fff' }]}>{w.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </>
-      )}
-
-      <Text style={styles.label}>Photo</Text>
-      <View style={styles.row}>
-        <CustomButton title="Gallery" color="#0ea5e9" onPress={pickImage} />
-        <CustomButton title="Camera" color="#10b981" onPress={takePhoto} />
-      </View>
-      {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
-
-      <Text style={styles.label}>Location</Text>
-      <Text style={styles.coords}>{coords || 'Fetching coordinates...'}</Text>
-
-      <CustomButton title="Submit Report" color="#6366f1" onPress={handleSubmit} />
-    </ScrollView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 16, backgroundColor: '#f1f5f9' },
-  title: { fontSize: 22, fontWeight: '700', textAlign: 'center', marginBottom: 12 },
-  label: { fontWeight: '600', marginTop: 8, marginBottom: 4 },
-  input: { backgroundColor: '#fff', padding: 10, borderRadius: 8, borderWidth: 1, borderColor: '#e2e8f0', marginBottom: 8 },
-  row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
-  image: { width: '100%', height: 200, borderRadius: 12, marginBottom: 8 },
-  coords: { fontSize: 12, color: '#475569', marginBottom: 12 },
-  badge: { paddingVertical: 6, paddingHorizontal: 12, borderRadius: 20, backgroundColor: '#e2e8f0', marginRight: 6 },
-  badgeActive: { backgroundColor: '#6366f1' },
-  badgeText: { fontSize: 12, color: '#1e293b' },
+  gradient: { flex: 1 },
+  container: { padding: 16 },
+  title: { fontSize: 24, fontWeight: '800', textAlign: 'center', marginBottom: 16, color: '#fff' },
+  label: { fontWeight: '700', marginTop: 10, marginBottom: 6, color: '#064e3b' },
+  input: {
+    backgroundColor: '#fff',
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 2,
+  },
+  row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
+  image: { width: '100%', height: 200, borderRadius: 12, marginBottom: 10 },
+  coords: { fontSize: 12, color: '#475569', marginBottom: 14 },
+  badge: {
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 20,
+    backgroundColor: '#e2e8f0',
+    marginRight: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 1 },
+  },
+  badgeActive: { backgroundColor: '#14b8a6' },
+  badgeText: { fontSize: 13, fontWeight: '600', color: '#1e293b' },
 });
